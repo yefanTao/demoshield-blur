@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DemoShield Blur — Real-Chrome E2E DOM Test Runner</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; }
+    .card { padding: 12px; border: 1px solid #cbd5e1; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div id="saas-fixture">
+    <div id="mrr-kpi" class="card">$48,920.50</div>
+    <div data-testid="stripe-secret" class="card">sk_live_51NxDemo92kLpQ8vR4mTwXz</div>
+    <div id="customer-note" class="card">Contact sarah.chen@meridian.io or call +1 (415) 555-0194 regarding $12,400.00 invoice</div>
+    <input id="secret-input" type="text" value="ghp_8aK9mN2pQrStUvWxYz1234567890abcd" />
+    <div id="manual-target" class="card">Acme Corp Confidential Roadmap Q4</div>
+  </div>
+
+  <script src="../extension/rules.js"></script>
+  <script src="../extension/content.js"></script>
+  <script>
+    (async function runE2E() {
+      const results = [];
+      function record(name, fn) {
+        return Promise.resolve()
+          .then(fn)
+          .then((detail) => results.push({ name, status: 'PASS', detail: detail || 'ok' }))
+          .catch((err) => results.push({ name, status: 'FAIL', error: err && err.message ? err.message : String(err) }));
+      }
+      function assert(cond, msg) {
+        if (!cond) throw new Error(msg || 'Assertion failed');
+      }
+
+      try {
+        const ctrl = window.__DEMOSHIELD_BLUR__;
+        assert(ctrl, 'window.__DEMOSHIELD_BLUR__ missing');
+
+        await record('1. Shadow-DOM HUD mounts isolated from host styles', () => {
+          ctrl.setHudVisible(true);
+          const host = document.getElementById('demoshield-hud-host');
+          assert(host && host.shadowRoot, 'HUD host or shadowRoot missing');
+          const hud = host.shadowRoot.getElementById('dsHud');
+          assert(hud && !hud.classList.contains('hidden'), 'HUD should be visible');
+          return 'ShadowRoot mounted cleanly';
+        });
+
+        await record('2. Manual Click-to-Blur & Solid Redact mode preserve DOM textContent', () => {
+          const el = document.getElementById('manual-target');
+          const orig = el.textContent;
+          ctrl.toggleManualMask(el);
+          assert(el.getAttribute('data-demoshield-mask') === 'blur', 'Expected blur mask');
+          assert(el.textContent === orig, 'textContent mutated');
+          const filterVal = getComputedStyle(el).filter;
+          assert(filterVal.includes('blur'), `Expected computed blur filter, got: ${filterVal}`);
+
+          ctrl.setMode('redact');
+          assert(el.getAttribute('data-demoshield-mask') === 'redact', 'Expected redact mask');
+          assert(el.textContent === orig, 'textContent mutated in redact mode');
+          ctrl.setMode('blur');
+          return `filter=${filterVal}, text preserved`;
+        });
+
+        await record('3. Local Regex Auto-Mask catches API keys, emails, revenue & phones non-destructively', () => {
+          const mrrEl = document.getElementById('mrr-kpi');
+          const keyEl = document.querySelector('[data-testid="stripe-secret"]');
+          const inpEl = document.getElementById('secret-input');
+          const origInputVal = inpEl.value;
+
+          const res = ctrl.runAutoMask(['apiKeys', 'emails', 'currency', 'phonesCards']);
+          assert(res.matched >= 6, `Expected >= 6 auto-masked tokens, got ${res.matched}`);
+          assert(mrrEl.getAttribute('data-demoshield-auto-el') === '1', 'MRR leaf element should use zero-DOM-mutation attribute mask');
+          assert(keyEl.getAttribute('data-demoshield-auto-el') === '1', 'API key leaf element should use attribute mask');
+          assert(inpEl.getAttribute('data-demoshield-auto-el') === '1', 'Input should be masked via CSS');
+          assert(inpEl.value === origInputVal, 'Input .value must NOT be mutated');
+
+          const inlineMasks = document.querySelectorAll('#customer-note ds-mask');
+          assert(inlineMasks.length === 3, `Expected 3 inline ds-mask spans in mixed prose, got ${inlineMasks.length}`);
+          return `matched=${res.matched} in ${res.elapsedMs}ms`;
+        });
+
+        await record('4. Per-origin rule persistence & <10ms replay after Unblur All', async () => {
+          await ctrl.saveOriginProfile();
+          ctrl.unblurAll();
+          assert(document.querySelectorAll('[data-demoshield-mask]').length === 0, 'Unblur All left residual masks');
+          assert(document.querySelectorAll('ds-mask').length === 0, 'Unblur All left residual ds-mask spans');
+          assert(
+            document.getElementById('customer-note').textContent === 'Contact sarah.chen@meridian.io or call +1 (415) 555-0194 regarding $12,400.00 invoice',
+            'Mixed prose text not cleanly restored'
+          );
+
+          const replay = await ctrl.applyOriginProfile();
+          assert(replay.applied >= 7, `Expected >= 7 re-applied masks, got ${replay.applied}`);
+          assert(replay.elapsedMs < 50, `Expected fast replay, got ${replay.elapsedMs}ms`);
+          assert(document.getElementById('manual-target').getAttribute('data-demoshield-mask') === 'blur', 'Saved manual selector not re-applied');
+          await ctrl.clearOriginProfile();
+          ctrl.unblurAll();
+          return `replayed=${replay.applied} masks in ${replay.elapsedMs}ms`;
+        });
+
+        const failed = results.filter((r) => r.status === 'FAIL').length;
+        const payload = { results, summary: { total: results.length, passed: results.length - failed, failed } };
+        await fetch('/__report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (fatal) {
+        await fetch('/__report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fatal: fatal && fatal.stack ? fatal.stack : String(fatal) })
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

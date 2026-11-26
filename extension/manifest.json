@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "DemoShield Blur — Screen-Share & Demo Privacy · Open Source",
+  "short_name": "DemoShield",
+  "version": "1.0.0",
+  "description": "Zero host permissions, zero tracking. Click-to-blur, solid redact, and local regex auto-mask for API keys, emails & revenue.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "contextMenus"
+  ],
+  "action": {
+    "default_title": "DemoShield Blur — Screen-Share Privacy",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "commands": {
+    "toggle-blur-hud": {
+      "suggested_key": {
+        "default": "Alt+Shift+B",
+        "mac": "Alt+Shift+B"
+      },
+      "description": "Toggle DemoShield Blur floating HUD on active tab"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

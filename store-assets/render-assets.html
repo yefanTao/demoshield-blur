@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DemoShield Blur — Chrome Web Store Visual Assets</title>
+  <style>
+    :root {
+      --cobalt: #2563EB;
+      --cobalt-dark: #1D4ED8;
+      --cobalt-soft: #EFF6FF;
+      --emerald: #10B981;
+      --emerald-soft: #ECFDF5;
+      --emerald-text: #047857;
+      --danger: #DC2626;
+      --danger-soft: #FEF2F2;
+      --text: #0F172A;
+      --muted: #475569;
+      --border: #E2E8F0;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: #FFFFFF; color: var(--text); overflow: hidden; -webkit-font-smoothing: antialiased; }
+    .slide { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+    .slide.active { display: flex; }
+
+    .bg-hero { background: radial-gradient(circle at 86% 14%, #DBEAFE 0%, #F5F8FC 46%, #FFFFFF 100%); }
+    .bg-cobalt { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 52%, #1D4ED8 100%); color: #FFFFFF; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 15px; border-radius: 999px; font-size: 13.5px; font-weight: 800;
+      font-family: var(--mono);
+    }
+    .pill-emerald { background: var(--emerald-soft); color: var(--emerald-text); border: 1.5px solid #6EE7B7; }
+    .pill-cobalt { background: var(--cobalt-soft); color: var(--cobalt-dark); border: 1.5px solid #93C5FD; }
+    .pill-white { background: rgba(255,255,255,0.14); color: #FFFFFF; border: 1.5px solid rgba(255,255,255,0.28); }
+
+    .s-wrap { flex-direction: column; padding: 44px 60px; justify-content: space-between; width: 100%; height: 100%; }
+    .s-head { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 13px; font-size: 23px; font-weight: 900; letter-spacing: -0.02em; }
+    .brand img { width: 44px; height: 44px; border-radius: 10px; box-shadow: 0 4px 12px rgba(29,78,216,0.25); }
+    .s-title { text-align: center; margin: 4px 0; }
+    .s-title h1 { font-size: 42px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; }
+    .s-title h1 span { color: var(--cobalt-dark); }
+    .s-title p { font-size: 18px; color: var(--muted); margin-top: 8px; }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 10px; }
+    .audit-box {
+      background: #FFFFFF; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.09); border: 2.5px solid var(--border);
+    }
+    .audit-box.good { border-color: #10B981; }
+    .audit-box.bad { border-color: #FCA5A5; }
+    .audit-bar {
+      padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+      font-weight: 800; font-size: 16.5px; border-bottom: 1px solid var(--border);
+    }
+    .audit-box.good .audit-bar { background: var(--emerald-soft); color: var(--emerald-text); }
+    .audit-box.bad .audit-bar { background: var(--danger-soft); color: #991B1B; }
+    .code {
+      background: #0B1120; color: #E2E8F0; font-family: var(--mono); font-size: 14px; line-height: 1.62;
+      padding: 18px 20px; margin: 16px 20px 12px; border-radius: 12px; white-space: pre;
+    }
+    .cg { color: #34D399; font-weight: 700; }
+    .cr { color: #FCA5A5; font-weight: 700; }
+    .cd { color: #94A3B8; }
+    .verdict { margin: 0 20px 18px; padding: 12px 15px; border-radius: 10px; font-size: 13.5px; line-height: 1.45; }
+    .verdict.good { background: var(--emerald-soft); color: var(--emerald-text); border: 1px solid #A7F3D0; }
+    .verdict.bad { background: var(--danger-soft); color: #991B1B; border: 1px solid #FECACA; }
+
+    /* Mock dashboard for slides 2 & 3 */
+    .dash-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; align-items: center; }
+    .dash-card {
+      background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px;
+      box-shadow: 0 22px 48px rgba(15,23,42,0.10); overflow: hidden;
+    }
+    .dash-bar {
+      background: #F8FAFC; border-bottom: 1px solid var(--border); padding: 12px 18px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+    }
+    .dash-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .kpi { border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: #FFFFFF; }
+    .kpi-l { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 5px; }
+    .kpi-v { font-family: var(--mono); font-size: 26px; font-weight: 800; color: var(--text); }
+    .blurred { filter: blur(9px); display: inline-block; }
+    .solid-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #0F172A; color: #94A3B8; font-family: var(--mono); font-size: 13px;
+      font-weight: 800; letter-spacing: 0.1em; padding: 4px 14px; border-radius: 6px;
+    }
+    .row-item {
+      display: flex; align-items: center; justify-content: space-between;
+      border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; background: #FAFCFF;
+      font-family: var(--mono); font-size: 13px;
+    }
+    .hud-mock {
+      background: #0F172A; color: #F8FAFC; border: 1px solid #334155; border-radius: 16px;
+      padding: 18px; box-shadow: 0 22px 46px rgba(15,23,42,0.34);
+    }
+    .hud-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .hud-b {
+      background: #1E293B; border: 1px solid #334155; color: #E2E8F0;
+      padding: 8px 13px; border-radius: 8px; font-size: 13px; font-weight: 700;
+    }
+    .hud-b.on { background: #2563EB; border-color: #60A5FA; color: #FFFFFF; }
+
+    .p440 { flex-direction: column; justify-content: space-between; padding: 26px 28px; width: 440px; height: 280px; }
+    .p1400 { align-items: center; justify-content: space-between; padding: 46px 70px; width: 1400px; height: 560px; gap: 40px; }
+  </style>
+</head>
+<body>
+  <!-- SLIDE 1: ZERO PERMISSIONS AUDIT (1280x800) -->
+  <section id="s1" class="slide bg-hero">
+    <div class="s-wrap">
+      <div class="s-head">
+        <div class="brand">
+          <img src="../extension/icons/icon128.png" alt="" />
+          <span>DemoShield Blur</span>
+        </div>
+        <span class="pill pill-emerald">✓ ZERO &lt;all_urls&gt; SITE PERMISSIONS</span>
+      </div>
+      <div class="s-title">
+        <h1>Screen-Share Privacy With <span>Zero Background Spying</span></h1>
+        <p>Dormant until you click the icon or press Alt+Shift+B. Auditable open-source Manifest V3.</p>
+      </div>
+      <div class="compare">
+        <div class="audit-box good">
+          <div class="audit-bar"><span>DemoShield Blur (v1.0.0)</span><span>4 Minimal Permissions</span></div>
+          <div class="code">"permissions": [
+  <span class="cg">"activeTab"</span>,
+  <span class="cg">"storage"</span>,
+  <span class="cg">"scripting"</span>,
+  <span class="cg">"contextMenus"</span>
+]
+<span class="cd">// NO host_permissions · NO &lt;all_urls&gt;</span>
+<span class="cd">// NO content_scripts  · NO fetch() / AI</span></div>
+          <div class="verdict good"><strong>✓ Safe by Architecture:</strong> Cannot read background tabs or exfiltrate API keys. Verified by automated <code>tests/manifest.test.mjs</code>.</div>
+        </div>
+        <div class="audit-box bad">
+          <div class="audit-bar"><span>Typical Blur Extensions</span><span>Broad Site Access</span></div>
+          <div class="code">"host_permissions": [
+  <span class="cr">"&lt;all_urls&gt;"</span>
+],
+"permissions": [
+  <span class="cr">"tabs"</span>, <span class="cr">"webRequest"</span>, <span class="cr">"cookies"</span>
+]
+<span class="cd">// Chrome warning: "Read and change all</span>
+<span class="cd">// your data on all websites"</span></div>
+          <div class="verdict bad"><strong>✗ Unnecessary Risk:</strong> Permanent access to every banking, Stripe, and internal console tab — plus $67+ paywalls.</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--muted);">
+        <span>100% Local Regex · 0 Bytes Uploaded</span>
+        <span>Free Manual Blur Forever · $9 One-Time Pro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: 1-CLICK LOCAL AUTO-MASK (1280x800) -->
+  <section id="s2" class="slide bg-hero">
+    <div class="s-wrap">
+      <div class="s-head">
+        <div class="brand">
+          <img src="../extension/icons/icon128.png" alt="" />
+          <span>DemoShield Blur</span>
+        </div>
+        <span class="pill pill-cobalt">1-CLICK LOCAL REGEX AUTO-MASK · &lt;2ms</span>
+      </div>
+      <div class="s-title">
+        <h1>Hide Stripe Revenue, API Keys &amp; Emails in <span>One Click</span></h1>
+        <p>Pure local JavaScript regex + Luhn card check. Zero cloud AI. Zero leaked secrets on Zoom or Loom.</p>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-bar">
+            <span>dashboard.acmepay.example/live</span>
+            <span style="color:#047857;font-weight:800;">● 7 SECRETS MASKED (1.2ms)</span>
+          </div>
+          <div class="dash-body">
+            <div class="kpi-row">
+              <div class="kpi">
+                <div class="kpi-l">Monthly Recurring Revenue</div>
+                <div class="kpi-v"><span class="blurred">$48,920.50</span></div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-l">Net Volume (30d)</div>
+                <div class="kpi-v"><span class="blurred">$142,380.00</span></div>
+              </div>
+            </div>
+            <div class="row-item">
+              <span style="color:#475569;font-weight:700;">STRIPE_SECRET</span>
+              <span class="blurred">sk_live_51NxDemo92kLpQ8vR4mTwXz</span>
+            </div>
+            <div class="row-item">
+              <span style="color:#475569;font-weight:700;">GITHUB_TOKEN</span>
+              <span class="blurred">ghp_8aK9mN2pQrStUvWxYz123456</span>
+            </div>
+            <div class="row-item">
+              <span style="color:#475569;font-weight:700;">ENTERPRISE_ADMIN</span>
+              <span class="blurred">sarah.chen@meridian.io</span>
+            </div>
+          </div>
+        </div>
+        <div class="hud-mock">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1E293B;padding-bottom:12px;">
+            <strong style="font-size:16px;">DemoShield Shadow HUD</strong>
+            <span style="font-family:var(--mono);font-size:12px;background:#1E293B;color:#93C5FD;padding:3px 9px;border-radius:99px;">7 masked</span>
+          </div>
+          <div style="font-size:13px;color:#94A3B8;margin-top:12px;">Auto-Detected Locally (Zero Network):</div>
+          <div class="hud-btns">
+            <span class="hud-b on">✓ API Keys (sk_ / ghp_ / AKIA)</span>
+            <span class="hud-b on">✓ Emails</span>
+            <span class="hud-b on">✓ Revenue ($)</span>
+            <span class="hud-b on">✓ Phones &amp; Cards</span>
+          </div>
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid #1E293B;font-family:var(--mono);font-size:12px;color:#34D399;">
+            ✓ React/Vue SPA safe · Instant Unblur All
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--muted);">
+        <span>Detects Stripe · OpenAI · GitHub · AWS · Google · Bearer JWT · Currency</span>
+        <span>Press Alt+Shift+B Anytime</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: BLUR VS SOLID REDACT PILL (1280x800) -->
+  <section id="s3" class="slide bg-hero">
+    <div class="s-wrap">
+      <div class="s-head">
+        <div class="brand">
+          <img src="../extension/icons/icon128.png" alt="" />
+          <span>DemoShield Blur</span>
+        </div>
+        <span class="pill pill-cobalt">BLUR (4–20px) OR CLEAN SOLID REDACT</span>
+      </div>
+      <div class="s-title">
+        <h1>Click-to-Blur or <span>Clean Solid Redact Pills</span></h1>
+        <p>DevTools-style element picker inside an isolated Shadow-DOM HUD. Right-click or Esc to exit.</p>
+      </div>
+      <div class="compare">
+        <div class="dash-card">
+          <div class="dash-bar"><span>Mode 1: Gaussian Blur (8px)</span><span style="color:var(--cobalt-dark);font-weight:800;">FREE FOREVER</span></div>
+          <div class="dash-body">
+            <div class="row-item"><span>Customer Email</span><span class="blurred">david.park@northstar.co</span></div>
+            <div class="row-item"><span>Monthly Revenue</span><span class="blurred">$12,400.00</span></div>
+            <div class="row-item"><span>Phone Number</span><span class="blurred">+1 (415) 555-0194</span></div>
+          </div>
+        </div>
+        <div class="dash-card" style="border-color:var(--cobalt);">
+          <div class="dash-bar" style="background:var(--cobalt-soft);color:var(--cobalt-dark);"><span>Mode 2: Clean Solid Redact Pill</span><span style="font-weight:800;">PUBLICATION READY</span></div>
+          <div class="dash-body">
+            <div class="row-item"><span>Customer Email</span><span class="solid-pill">••••••</span></div>
+            <div class="row-item"><span>Monthly Revenue</span><span class="solid-pill">REDACTED</span></div>
+            <div class="row-item"><span>Phone Number</span><span class="solid-pill">••••••</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--muted);">
+        <span>Zero Text Mutation — Underlying Input Values &amp; React State Untouched</span>
+        <span>Shadow-DOM Isolated Styling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: PER-SITE PROFILES + $9 PRO (1280x800) -->
+  <section id="s4" class="slide bg-hero">
+    <div class="s-wrap">
+      <div class="s-head">
+        <div class="brand">
+          <img src="../extension/icons/icon128.png" alt="" />
+          <span>DemoShield Blur</span>
+        </div>
+        <span class="pill pill-emerald">$9 ONE-TIME PRO (7× CHEAPER THAN $67)</span>
+      </div>
+      <div class="s-title">
+        <h1>Save Per-Domain Rules. Re-Apply in <span>&lt;10ms</span>.</h1>
+        <p>Click Save Site once on Stripe, HubSpot, or AWS. Re-apply saved selectors instantly on your next demo.</p>
+      </div>
+      <div class="compare">
+        <div class="dash-card">
+          <div class="dash-bar"><span>Saved Local Origin Profiles</span><span>chrome.storage.local</span></div>
+          <div class="dash-body">
+            <div class="row-item"><span>dashboard.stripe.com</span><span style="color:#047857;font-weight:800;">4 selectors + Revenue $</span></div>
+            <div class="row-item"><span>app.hubspot.com</span><span style="color:#047857;font-weight:800;">3 selectors + Emails</span></div>
+            <div class="row-item"><span>console.aws.amazon.com</span><span style="color:#047857;font-weight:800;">API Keys + Account ID</span></div>
+            <div style="font-family:var(--mono);font-size:12.5px;color:var(--cobalt-dark);padding-top:4px;">
+              ⚡ Re-applied in 1.4ms when you press Alt+Shift+B
+            </div>
+          </div>
+        </div>
+        <div class="dash-card" style="background:var(--cobalt-soft);border:2px solid var(--cobalt);padding:26px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div style="font-family:var(--mono);font-size:12px;font-weight:800;color:var(--cobalt-dark);">HONEST PRICING · ZERO SUBSCRIPTION</div>
+            <div style="font-size:48px;font-weight:900;color:var(--text);margin:8px 0 4px;">$0 <span style="font-size:20px;color:var(--muted);">Free</span> &nbsp;/&nbsp; <span style="color:var(--cobalt-dark);">$9</span> <span style="font-size:20px;color:var(--muted);">Pro Once</span></div>
+            <p style="font-size:15px;color:var(--muted);line-height:1.5;margin-top:8px;">
+              Unlimited manual Click-to-Blur &amp; Solid Redact free forever. Unlock Auto-Mask, saved per-site profiles, and custom intensity/labels with an offline lifetime key (<code>DSPRO-...</code>).
+            </p>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #BFDBFE;border-radius:10px;padding:12px 14px;font-family:var(--mono);font-size:12.5px;color:var(--text);">
+            ✓ Offline Key Verification · Zero Accounts · Zero Phone-Home
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;color:var(--muted);">
+        <span>Compare: BlurWeb $67 upfront (no free tier) vs DemoShield $0 Free / $9 Pro</span>
+        <span>Open Source · MIT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SMALL PROMO TILE: 440x280 -->
+  <section id="p440" class="slide p440 bg-cobalt">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="../extension/icons/icon128.png" style="width:42px;height:42px;border-radius:10px;" alt="" />
+      <div>
+        <div style="font-size:17px;font-weight:900;letter-spacing:-0.01em;">DemoShield Blur</div>
+        <div style="font-family:var(--mono);font-size:11px;color:#93C5FD;">ZERO HOST PERMISSIONS</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:25px;font-weight:900;line-height:1.14;letter-spacing:-0.02em;">
+        Blur Revenue, API Keys &amp; Emails in 1 Click
+      </div>
+      <div style="font-size:13px;opacity:0.9;margin-top:7px;">
+        Click-to-blur, solid redact pills &amp; local regex auto-mask for Zoom, Loom &amp; live demos.
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;">
+      <span style="background:#10B981;padding:5px 9px;border-radius:6px;">✓ No &lt;all_urls&gt;</span>
+      <span style="background:rgba(255,255,255,0.16);padding:5px 9px;border-radius:6px;">100% Local MV3</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE PROMO TILE: 1400x560 -->
+  <section id="p1400" class="slide p1400 bg-cobalt">
+    <div style="max-width:740px;">
+      <div style="display:flex;gap:10px;margin-bottom:18px;">
+        <span class="pill pill-white">✓ Zero &lt;all_urls&gt; Host Permissions</span>
+        <span class="pill pill-white">Open Source · Manifest V3</span>
+      </div>
+      <h1 style="font-size:52px;font-weight:900;line-height:1.08;letter-spacing:-0.03em;margin-bottom:16px;">
+        DemoShield Blur:<br/>Blur Sensitive Tabs in 1 Click
+      </h1>
+      <p style="font-size:20px;opacity:0.92;line-height:1.45;margin-bottom:24px;">
+        Hide Stripe MRR, API keys (<code>sk_live_</code>, <code>ghp_</code>, <code>AKIA</code>), and customer emails before screen sharing. Free manual click-to-blur forever + $9 one-time local regex Auto-Mask.
+      </p>
+      <div style="display:flex;gap:14px;font-family:var(--mono);font-size:14px;font-weight:800;">
+        <span style="background:#10B981;padding:10px 16px;border-radius:9px;">✓ 0 Bytes Uploaded</span>
+        <span style="background:rgba(255,255,255,0.16);padding:10px 16px;border-radius:9px;">Alt+Shift+B · Solid Redact · Saved Rules</span>
+      </div>
+    </div>
+    <div style="background:#FFFFFF;color:var(--text);border-radius:20px;padding:26px;width:445px;box-shadow:0 28px 60px rgba(15,23,42,0.36);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <img src="../extension/icons/icon128.png" style="width:48px;height:48px;border-radius:11px;" alt="" />
+        <div>
+          <div style="font-size:19px;font-weight:900;">DemoShield Blur</div>
+          <div style="font-size:12.5px;color:var(--emerald-text);font-weight:800;">✓ 4 Minimal Permissions Audited</div>
+        </div>
+      </div>
+      <div style="background:#0B1120;color:#E2E8F0;font-family:var(--mono);font-size:13px;line-height:1.62;padding:15px;border-radius:12px;margin-bottom:14px;white-space:pre;">"permissions": [
+  <span class="cg">"activeTab"</span>,  <span class="cg">"storage"</span>,
+  <span class="cg">"scripting"</span>, <span class="cg">"contextMenus"</span>
+]
+<span class="cd">// NO &lt;all_urls&gt; · NO tabs · NO AI cloud</span></div>
+      <div style="background:var(--cobalt-soft);color:var(--cobalt-dark);border-radius:10px;padding:10px 14px;font-family:var(--mono);font-size:12.5px;font-weight:800;text-align:center;">
+        Free Forever Manual Blur · $9 Pro Once
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const id = new URLSearchParams(location.search).get('slide') || 's1';
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  </script>
+</body>
+</html>
