@@ -141,6 +141,15 @@
     });
   });
 
+  // Pre-select matching option when clicking Pricing cards
+  const interestSelect = document.getElementById('interestSelect');
+  document.querySelectorAll('[data-select-interest]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const val = link.getAttribute('data-select-interest');
+      if (interestSelect && val) interestSelect.value = val;
+    });
+  });
+
   // Contact & Pro license request handler (supports Netlify Forms when hosted on Netlify,
   // and clean pre-filled email fallback when hosted on GitHub Pages)
   const proForm = document.getElementById('proForm');
