@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DemoShield Blur — Zero-Host-Permission Screen-Share Privacy for Chrome</title>
+  <meta name="description" content="Hide Stripe revenue, API keys, and customer emails before screen sharing. Zero <all_urls> host permissions, 100% local regex, free manual click-to-blur, $9 one-time Pro." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- 1. STICKY MINIMAL NAV -->
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a href="#" class="brand">
+        <svg class="brand-icon" viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="#1D4ED8" />
+          <path d="M18 6 L28 10 V19 C28 24.5 23.6 28.4 18 30.2 C12.4 28.4 8 24.5 8 19 V10 Z" fill="#FFFFFF" />
+          <rect x="12" y="13" width="12" height="2.8" rx="1.4" fill="#0F172A" />
+          <rect x="12" y="17.5" width="9.5" height="2.8" rx="1.4" fill="#2563EB" />
+          <rect x="13.5" y="22" width="8" height="2.4" rx="1.2" fill="#94A3B8" />
+        </svg>
+        <span class="brand-name">DemoShield Blur</span>
+      </a>
+      <div class="nav-links">
+        <a href="#demo">Live Demo</a>
+        <a href="#audit">Audit</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://github.com/yefanTao/demoshield-blur" target="_blank" rel="noopener noreferrer" class="nav-signin">GitHub</a>
+        <a href="#pro-access" class="btn btn-primary btn-sm">Get Free Extension &rarr;</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 2. ABOVE-THE-FOLD 2-COLUMN HERO -->
+    <section id="demo" class="section hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">ZERO HOST PERMISSIONS &middot; 100% LOCAL &middot; FREE FOREVER TIER</div>
+          <h1 class="hero-h1">Blur sensitive tabs. One click.</h1>
+          <p class="hero-sub">
+            Mask Stripe revenue, API keys (<code>sk_live_</code>, <code>ghp_</code>, <code>AKIA</code>), and customer emails before Zoom, Loom, or livestreams.
+            No <code>&lt;all_urls&gt;</code> spy permission, no cloud AI uploads, no $67 upfront paywall.
+          </p>
+
+          <div class="try-box">
+            <div class="try-box-head">
+              <span class="try-label">Try it live on the AcmePay dashboard &rarr;</span>
+              <div class="mode-switch" role="group" aria-label="Mask Style">
+                <button id="demoModeBlur" class="mode-btn active" type="button">Blur (8px)</button>
+                <button id="demoModeRedact" class="mode-btn" type="button">Solid Redact</button>
+              </div>
+            </div>
+
+            <div class="chip-row">
+              <button id="chipAutoAll" class="chip chip-primary" type="button">Auto-Mask Secrets &amp; Revenue</button>
+              <button id="chipKeysEmails" class="chip" type="button">Mask API Keys &amp; Emails</button>
+              <button id="chipPicker" class="chip" type="button">Click-to-Blur Mode</button>
+              <button id="chipReset" class="chip chip-ghost" type="button">Unblur All</button>
+            </div>
+
+            <div class="telemetry-bar" id="heroTelemetry">
+              <span>MASKED: <strong id="telMasked">0</strong></span>
+              <span>ENGINE: <strong id="telMs">0.0ms</strong></span>
+              <span>UPLOADED: <strong>0 bytes</strong></span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#pro-access" class="btn btn-primary">Download v1.0.0 Free &rarr;</a>
+            <a href="https://github.com/yefanTao/demoshield-blur/blob/main/extension/manifest.json" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Inspect 4-Permission Manifest</a>
+          </div>
+          <p class="micro-trust">FREE MANUAL BLUR FOREVER &middot; $9 ONE-TIME PRO &middot; RUNS 100% LOCALLY IN CHROME MV3</p>
+        </div>
+
+        <!-- RIGHT COLUMN: INTERACTIVE FAKE SAAS REVENUE & API KEYS DASHBOARD -->
+        <div class="demo-frame" id="demoDashboard" aria-label="Interactive Fake SaaS Revenue and API Keys Dashboard">
+          <div class="demo-chrome">
+            <div class="demo-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="demo-url">dashboard.acmepay.example/live/overview</div>
+            <div class="demo-live-tag"><span class="live-dot"></span> INTERACTIVE DEMO</div>
+          </div>
+
+          <div class="demo-body">
+            <div class="demo-head-row">
+              <div>
+                <div class="demo-org">AcmePay Production</div>
+                <div class="demo-sub">Click any card, row, or key below — or trigger 1-Click Auto-Mask</div>
+              </div>
+              <span class="demo-env-pill">LIVE MODE</span>
+            </div>
+
+            <div class="kpi-grid">
+              <div class="kpi-card clickable-item" data-demo-click>
+                <div class="kpi-label">Monthly Recurring Revenue</div>
+                <div class="kpi-val mono-num" data-auto-field>$48,920.50</div>
+                <div class="kpi-delta">+14.2% vs last 30d</div>
+              </div>
+              <div class="kpi-card clickable-item" data-demo-click>
+                <div class="kpi-label">Net Volume (30d)</div>
+                <div class="kpi-val mono-num" data-auto-field>$142,380.00</div>
+                <div class="kpi-delta">Payout: <span data-auto-field>4242 4242 4242 4242</span></div>
+              </div>
+            </div>
+
+            <div class="secrets-panel">
+              <div class="panel-title">Production API Credentials</div>
+              <div class="secret-row clickable-item" data-demo-click>
+                <span class="secret-key-name">STRIPE_SECRET</span>
+                <code class="secret-val" data-auto-field>sk_live_51NxDemo92kLpQ8vR4mTwXz</code>
+              </div>
+              <div class="secret-row clickable-item" data-demo-click>
+                <span class="secret-key-name">GITHUB_TOKEN</span>
+                <code class="secret-val" data-auto-field>ghp_8aK9mN2pQrStUvWxYz123456</code>
+              </div>
+              <div class="secret-row clickable-item" data-demo-click>
+                <span class="secret-key-name">AWS_ACCESS_ID</span>
+                <code class="secret-val" data-auto-field>AKIAIOSFODNN7EXAMPLE</code>
+              </div>
+            </div>
+
+            <div class="cust-panel">
+              <div class="panel-title">Recent Enterprise Customers</div>
+              <table class="cust-table">
+                <thead>
+                  <tr>
+                    <th>Customer Email</th>
+                    <th>Phone</th>
+                    <th class="num-col">MRR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="clickable-item" data-demo-click>
+                    <td class="mono-cell" data-auto-field>sarah.chen@meridian.io</td>
+                    <td class="mono-cell" data-auto-field>+1 (415) 555-0194</td>
+                    <td class="mono-cell num-col" data-auto-field>$12,400.00</td>
+                  </tr>
+                  <tr class="clickable-item" data-demo-click>
+                    <td class="mono-cell" data-auto-field>david.park@northstar.co</td>
+                    <td class="mono-cell" data-auto-field>+1 (212) 555-0148</td>
+                    <td class="mono-cell num-col" data-auto-field>$4,850.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="demo-footer-bar">
+            <span>STATUS: <strong id="demoStatusText">All fields visible</strong></span>
+            <span>SHORTCUT: <strong>Alt+Shift+B</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SECTION 2 — DETERMINISTIC PERMISSION & WORKFLOW PROOF (#F5F8FC) -->
+    <section id="audit" class="section section-alt">
+      <div class="container split-grid">
+        <div>
+          <div class="eyebrow">DETERMINISTIC PRIVACY ARCHITECTURE</div>
+          <h2 class="section-h2">Zero host permissions. Auditable in 30 seconds.</h2>
+          <p class="section-lead">
+            Most blur extensions ask for <code>&lt;all_urls&gt;</code>, letting them silently read every tab you open. DemoShield Blur stays dormant until you click the icon or press <code>Alt+Shift+B</code>.
+          </p>
+          <ul class="spec-list">
+            <li><strong>4 minimal MV3 permissions only</strong> — <code>activeTab</code>, <code>storage</code>, <code>scripting</code>, <code>contextMenus</code>.</li>
+            <li><strong>Pure local regex engine</strong> — detects Stripe/OpenAI/GitHub/AWS/Google/JWT tokens, emails, currency amounts (<code>$</code>/<code>€</code>/<code>£</code>), SSNs, phones, and Luhn-validated cards in <code>&lt;2ms</code>.</li>
+            <li><strong>React &amp; Vue safe</strong> — applies CSS <code>filter: blur()</code> or solid <code>::after</code> redaction pills without mutating input values or breaking SPA state.</li>
+            <li><strong>Per-origin saved profiles</strong> — stores stable CSS selectors locally in <code>chrome.storage.local</code> and re-applies masks in <code>&lt;10ms</code> on click.</li>
+          </ul>
+          <div class="cli-snippet">
+            <span class="cli-prompt">$</span> node --test tests/manifest.test.mjs tests/rules.test.mjs
+            <span class="cli-pass">11/11 PASS</span>
+          </div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-head">
+            <span class="code-filename">extension/manifest.json</span>
+            <span class="code-badge">AUDITED MV3</span>
+          </div>
+<pre class="code-block">{
+  "manifest_version": 3,
+  "name": "DemoShield Blur — Screen-Share &amp; Demo Privacy",
+  "version": "1.0.0",
+  "permissions": [
+    <span class="tok-green">"activeTab"</span>,
+    <span class="tok-green">"storage"</span>,
+    <span class="tok-green">"scripting"</span>,
+    <span class="tok-green">"contextMenus"</span>
+  ],
+  "commands": {
+    "toggle-blur-hud": {
+      "suggested_key": { "default": "Alt+Shift+B" }
+    }
+  }
+}
+
+<span class="tok-dim">// Strictly forbidden &amp; enforced by tests/manifest.test.mjs:</span>
+<span class="tok-red">// ✗ NO host_permissions    ✗ NO &lt;all_urls&gt;</span>
+<span class="tok-red">// ✗ NO content_scripts     ✗ NO tabs / cookies / webRequest</span>
+<span class="tok-red">// ✗ NO fetch() / telemetry ✗ NO cloud AI endpoints</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SECTION 3 — TRANSPARENT PRICING -->
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="center-head">
+          <div class="eyebrow">HONEST ONE-TIME PRICING</div>
+          <h2 class="section-h2">Free manual blur. $9 one-time for Auto-Mask Pro.</h2>
+          <p class="section-lead">
+            BlurWeb charges <strong>$67 upfront</strong> with no free tier and 100% manual clicking. DemoShield gives unlimited manual blur free forever and local auto-redaction for 7&times; less.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="price-card">
+            <div class="price-tier">Free Forever</div>
+            <div class="price-num">$0</div>
+            <div class="price-unit">No credit card &middot; Open source</div>
+            <ul class="price-list">
+              <li>Unlimited manual Click-to-Blur</li>
+              <li>Clean Solid Redact pill mode</li>
+              <li>Shadow-DOM draggable HUD</li>
+              <li><code>Alt+Shift+B</code> shortcut &amp; right-click menu</li>
+              <li>Zero host permissions &middot; 100% local</li>
+            </ul>
+            <a href="#pro-access" class="btn btn-outline full-btn">Get Free Extension</a>
+          </div>
+
+          <div class="price-card price-anchor">
+            <div class="anchor-tag">ONE-TIME LIFETIME UNLOCK</div>
+            <div class="price-tier">DemoShield Pro</div>
+            <div class="price-num">$9</div>
+            <div class="price-unit">Pay once &middot; Own forever (vs $67 BlurWeb)</div>
+            <ul class="price-list">
+              <li>Everything in Free Forever</li>
+              <li><strong>1-Click Auto-Mask</strong>: API Keys, Emails, Revenue <code>$</code>, Phones &amp; Cards</li>
+              <li><strong>Saved Per-Origin Profiles</strong> (<code>&lt;10ms</code> replay)</li>
+              <li>Custom blur strength (<code>4px–20px</code>) &amp; custom redact labels</li>
+              <li>100% offline key (<code>DSPRO-XXXX-XXXX-XXXX</code>)</li>
+            </ul>
+            <a href="#pro-access" class="btn btn-primary full-btn">Request $9 Lifetime Key &rarr;</a>
+          </div>
+
+          <div class="price-card">
+            <div class="price-tier">Team 5-Pack</div>
+            <div class="price-num">$29</div>
+            <div class="price-unit">$5.80 per seat &middot; One-time</div>
+            <ul class="price-list">
+              <li>5 offline Pro lifetime keys</li>
+              <li>Zero SSO, zero seat-tracking servers</li>
+              <li>Shareable per-site selector templates</li>
+              <li>Email invoice for expense reimbursement</li>
+              <li>Priority bug fixes via email</li>
+            </ul>
+            <a href="#pro-access" class="btn btn-outline full-btn">Request Team Keys</a>
+          </div>
+        </div>
+
+        <p class="reassurance">One-time payment. Works 100% offline. No recurring subscription, no account lock-in.</p>
+      </div>
+    </section>
+
+    <!-- 5. SECTION 4 — PERSONA BENTO GRID (#F5F8FC) -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="eyebrow">BUILT FOR PEOPLE WHO SHARE SCREENS</div>
+        <h2 class="section-h2">One hotkey before you hit Record or Share.</h2>
+
+        <div class="bento-grid">
+          <div class="bento-card bento-tall">
+            <div class="bento-tag">INDIE HACKERS &amp; FOUNDERS</div>
+            <h3>Record Stripe &amp; analytics walkthroughs without leaking customer MRR</h3>
+            <p>
+              Toggle <strong>Revenue $</strong> + <strong>Emails</strong> before filming build-in-public updates, investor Looms, or X/Twitter product demos. Restore the entire dashboard in 1 click when done.
+            </p>
+            <div class="mini-preview">
+              <div class="mini-row"><span>Stripe MRR</span><span class="mini-pill">••••••</span></div>
+              <div class="mini-row"><span>Customer Email</span><span class="mini-pill">••••••</span></div>
+              <div class="mini-row"><span>Active Plan</span><span class="mini-clear">Enterprise</span></div>
+            </div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-tag">ENGINEERS &amp; DEVREL</div>
+            <h3>Mask API keys &amp; tokens on livestreams</h3>
+            <p>Catches <code>sk_live_</code>, <code>sk-proj-</code>, <code>ghp_</code>, <code>AKIA</code>, <code>AIza</code>, Slack tokens, and Bearer JWTs locally before you open console settings on Zoom or YouTube.</p>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-tag">SALES ENGINEERS</div>
+            <h3>Save per-domain demo profiles once</h3>
+            <p>Click <strong>Save Site</strong> on your staging CRM or billing portal. Next call, press <code>Alt+Shift+B</code> and DemoShield re-applies every saved selector in under 10ms.</p>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-tag">SUPPORT &amp; DOCS TEAMS</div>
+            <h3>Solid Redact pills instead of messy smear</h3>
+            <p>Switch from Gaussian blur to crisp charcoal <code>••••••</code> or <code>REDACTED</code> pills so screenshots for help docs and Notion SOPs look publication-ready.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SECTION 5 — OBJECTION-FIRST FAQ ACCORDION (#1 PRE-EXPANDED!) -->
+    <section id="faq" class="section">
+      <div class="container faq-wrap">
+        <div class="eyebrow">STRAIGHT ANSWERS</div>
+        <h2 class="section-h2">Questions skeptical engineers ask first.</h2>
+
+        <div class="faq-list">
+          <!-- #1 OBJECTION OPEN BY DEFAULT IN LIGHT BLUE-BORDERED BOX -->
+          <details class="faq-item faq-featured" open>
+            <summary>Why not just use BlurWeb ($67) or a free blur extension?</summary>
+            <div class="faq-body">
+              <p>
+                Two concrete reasons: <strong>price + permissions</strong>. BlurWeb charges <strong>$67+ upfront</strong> with no free tier and relies on manual clicking every session. Meanwhile, many free Chrome blur extensions request <code>&lt;all_urls&gt;</code> host permissions, giving them permanent read/write access to every website you visit.
+              </p>
+              <p>
+                DemoShield Blur gives you unlimited manual click-to-blur free forever, adds 1-click local regex auto-masking for <strong>$9 one-time</strong>, and is structurally incapable of running in the background because <code>host_permissions</code> does not exist in <code>manifest.json</code>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Does Auto-Mask send my page text or secrets to an AI server?</summary>
+            <div class="faq-body">
+              <p>
+                <strong>No — 0 bytes ever leave your browser.</strong> All detection runs via deterministic JavaScript regular expressions and Luhn card validation inside <code>extension/rules.js</code>. Our automated audit test (<code>tests/manifest.test.mjs</code>) fails if <code>fetch()</code>, <code>XMLHttpRequest</code>, <code>WebSocket</code>, or any analytics script is introduced into the extension.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Will blurring break my React, Next.js, or Stripe dashboard state?</summary>
+            <div class="faq-body">
+              <p>
+                No. Manual clicks, form inputs, and leaf dashboard cells are masked strictly via CSS attributes (<code>data-demoshield-mask</code>) without modifying <code>input.value</code> or component state. Mixed prose text nodes wrap only matched substrings in lightweight <code>&lt;ds-mask&gt;</code> tags and cleanly unwrap via <code>normalize()</code> when you click <strong>Unblur All</strong>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How do per-origin saved rules work without &lt;all_urls&gt;?</summary>
+            <div class="faq-body">
+              <p>
+                By design, Chrome only grants <code>activeTab</code> access when you explicitly invoke the extension (click toolbar icon, press <code>Alt+Shift+B</code>, or right-click). The instant you activate DemoShield on a tab, it looks up <code>location.origin</code> in local <code>chrome.storage.local</code> and re-applies your saved CSS selectors and auto-mask toggles in <code>&lt;10ms</code>.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How does the $9 Pro offline license key work?</summary>
+            <div class="faq-body">
+              <p>
+                After purchase, you receive a lifetime key formatted as <code>DSPRO-XXXX-XXXX-XXXX</code>. Pasting it into the extension popup verifies its checksum mathematically in <code>rules.js</code> — no login account, no subscription renewal, and no license server phone-home.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SECTION 6 — HUMAN CONTACT / PRO EARLY ACCESS FORM + PRIVACY POLICY (#F5F8FC) -->
+    <section id="pro-access" class="section section-alt">
+      <div class="container contact-grid">
+        <div>
+          <div class="eyebrow">INSTALL &amp; PRO ACCESS</div>
+          <h2 class="section-h2">Get DemoShield Blur v1.0.0 &amp; $9 Lifetime Pro.</h2>
+          <p class="section-lead">
+            Chrome Web Store listing is queued right behind our sister zero-permission extension (CleanSave Image). Leave your email for the instant CWS launch link, local ZIP unpack guide, or a $9 Pro lifetime checkout link.
+          </p>
+          <p class="human-note">We read every submission and respond within 1 business day.</p>
+
+          <div id="privacy" class="privacy-box">
+            <h3>Privacy Policy (Chrome Web Store Compliant)</h3>
+            <p>
+              <strong>DemoShield Blur</strong> collects, stores, transmits, and sells <strong>zero personal data</strong>. All DOM masking, regex scanning, and Pro key verification execute 100% locally inside your browser. Saved per-origin CSS selectors and UI preferences remain solely in your browser's local <code>chrome.storage.local</code> and never touch external servers.
+            </p>
+          </div>
+        </div>
+
+        <form class="contact-card" name="demoshield-pro-waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="proForm">
+          <input type="hidden" name="form-name" value="demoshield-pro-waitlist" />
+          <p class="sr-only"><label>Don&rsquo;t fill this out: <input name="bot-field" /></label></p>
+
+          <label class="form-field">
+            <span>Work or personal email</span>
+            <input type="email" name="email" required placeholder="you@company.com" />
+          </label>
+
+          <label class="form-field">
+            <span>What do you need?</span>
+            <select name="interest">
+              <option value="free-cws-notify">Notify me when Free v1.0.0 is live on Chrome Web Store</option>
+              <option value="pro-9-lifetime" selected>Buy DemoShield Pro ($9 One-Time Lifetime Key)</option>
+              <option value="team-29-pack">Buy Team 5-Pack ($29 One-Time)</option>
+              <option value="support-question">Question / Feature Request</option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span>Notes or dashboard you demo most (optional)</span>
+            <textarea name="message" rows="3" placeholder="e.g. Stripe Dashboard, HubSpot, AWS Console..."></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primary full-btn" id="formSubmitBtn">Send Request &rarr;</button>
+          <div class="form-status" id="formStatus" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- 8. SECTION 7 — OPERATIONAL-MATURITY FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <span class="footer-brand">DemoShield Blur</span>
+        <span class="footer-sep">&middot;</span>
+        <span class="mono-meta">v1.0.0 &middot; MIT Open Source</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/yefanTao/demoshield-blur" target="_blank" rel="noopener noreferrer">Open-Source Repo</a>
+        <a href="#audit">Permission Audit</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">Alternatives</a>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-disclaimer">
+        Not affiliated with Stripe, BlurWeb, or Google Chrome.
+      </div>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
