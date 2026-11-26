@@ -556,7 +556,8 @@ code {
   flex-direction: column;
   gap: 10px;
 }
-.bento-tall { grid-row: span 3; justify-content: space-between; }
+.bento-tall { grid-row: span 3; justify-content: space-between; gap: 20px; }
+.bento-top { display: flex; flex-direction: column; gap: 10px; }
 .bento-tag {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -636,6 +637,39 @@ code {
   gap: 44px;
   align-items: start;
 }
+.price-list code { white-space: nowrap; }
+.install-box {
+  background: #FFFFFF;
+  border: 1.5px solid #BFDBFE;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.install-box-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.install-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.install-meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.install-steps {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.install-steps strong { color: var(--text); }
+.form-card-head h3 { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.form-card-head p { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+.human-note-sm { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); text-align: center; }
+
 .human-note {
   font-family: var(--font-mono);
   font-size: 12.5px;
