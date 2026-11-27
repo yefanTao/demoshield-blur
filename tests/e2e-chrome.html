@@ -61,14 +61,18 @@
           return `filter=${filterVal}, text preserved`;
         });
 
-        await record('3. Local Regex Auto-Mask catches API keys, emails, revenue & phones non-destructively', () => {
+        await record('3. Free preview caps at 5 items, Pro unlock masks all 6+ non-destructively', () => {
           const mrrEl = document.getElementById('mrr-kpi');
           const keyEl = document.querySelector('[data-testid="stripe-secret"]');
           const inpEl = document.getElementById('secret-input');
           const origInputVal = inpEl.value;
 
+          const freeRes = ctrl.runAutoMask(['apiKeys', 'emails', 'currency', 'phonesCards']);
+          assert(freeRes.matched === 5 && freeRes.limitedByFree === true, `Expected Free preview cap of 5, got ${JSON.stringify(freeRes)}`);
+
+          ctrl.setSettings({ proUnlocked: true });
           const res = ctrl.runAutoMask(['apiKeys', 'emails', 'currency', 'phonesCards']);
-          assert(res.matched >= 6, `Expected >= 6 auto-masked tokens, got ${res.matched}`);
+          assert(res.matched >= 6 && !res.limitedByFree, `Expected >= 6 auto-masked tokens in Pro mode, got ${JSON.stringify(res)}`);
           assert(mrrEl.getAttribute('data-demoshield-auto-el') === '1', 'MRR leaf element should use zero-DOM-mutation attribute mask');
           assert(keyEl.getAttribute('data-demoshield-auto-el') === '1', 'API key leaf element should use attribute mask');
           assert(inpEl.getAttribute('data-demoshield-auto-el') === '1', 'Input should be masked via CSS');
@@ -76,7 +80,7 @@
 
           const inlineMasks = document.querySelectorAll('#customer-note ds-mask');
           assert(inlineMasks.length === 3, `Expected 3 inline ds-mask spans in mixed prose, got ${inlineMasks.length}`);
-          return `matched=${res.matched} in ${res.elapsedMs}ms`;
+          return `free=${freeRes.matched}/6 capped, pro=${res.matched}/6 in ${res.elapsedMs}ms`;
         });
 
         await record('4. Per-origin rule persistence & <10ms replay after Unblur All', async () => {

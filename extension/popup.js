@@ -56,7 +56,7 @@
       if (st && st.error) showError(st.error);
       return;
     }
-    showError('');
+    showError(st.saved && st.saved.limitedByFree ? st.saved.error : '');
     if (st.origin) originLabel.textContent = st.origin.replace(/^https?:\/\//, '');
     maskedBadge.textContent = `${st.maskedCount || 0} masked`;
     savedMeta.textContent = `${st.savedOriginCount || 0} saved`;
@@ -77,7 +77,7 @@
     if (currentSettings.proUnlocked) {
       proBadge.textContent = 'PRO';
       proBadge.classList.add('unlocked');
-      proMsg.textContent = 'Pro lifetime key verified offline.';
+      proMsg.textContent = 'Pro lifetime key verified offline — unlimited Auto-Mask & saved sites active.';
     } else {
       proBadge.textContent = 'FREE';
       proBadge.classList.remove('unlocked');
@@ -105,7 +105,6 @@
     if (currentSettings.proKey) proKeyInput.value = currentSettings.proKey;
     renderProState();
 
-    // Auto-attach & replay any saved per-origin profile on popup open (<10ms)
     const st = await dispatchToActive({ type: 'DEMOSHIELD_GET_STATE', applySaved: true });
     renderTabState(st);
   }
@@ -186,7 +185,8 @@
     if (Rules.verifyProKey(key)) {
       await saveSettings({ proKey: key, proUnlocked: true });
       renderProState();
-      proMsg.textContent = 'Unlocked! Pro features enabled offline.';
+      const st = await dispatchToActive({ type: 'DEMOSHIELD_UPDATE_SETTINGS', proUnlocked: true });
+      renderTabState(st);
     } else {
       proMsg.textContent = 'Invalid key format/checksum. Expected DSPRO-XXXX-XXXX-XXXX.';
     }

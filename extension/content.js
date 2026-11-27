@@ -20,6 +20,8 @@
   const HUD_HOST_ID = 'demoshield-hud-host';
   const STORAGE_SETTINGS_KEY = 'demoshield_settings_v1';
   const STORAGE_PROFILES_KEY = 'demoshield_origin_profiles_v1';
+  const FREE_AUTO_MASK_LIMIT = 5;
+  const FREE_ORIGIN_PROFILE_LIMIT = 1;
 
   const SKIP_TAGS = new Set([
     'SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'IFRAME', 'OBJECT', 'EMBED',
@@ -339,7 +341,10 @@
     }
 
     ensurePageStyles();
+    const maxMatches = state.proUnlocked ? Infinity : FREE_AUTO_MASK_LIMIT;
     let matchCount = 0;
+    let totalDetected = 0;
+    let limitedByFree = false;
 
     // 1. Scan text inputs/textareas non-destructively (never mutates .value)
     const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="search"], input:not([type]), textarea');
@@ -349,9 +354,14 @@
       if (!val || val.length > 2000) continue;
       const found = Rules.detectMatches(val, enabled);
       if (found.length > 0) {
-        inp.setAttribute('data-demoshield-cat', found[0].category);
-        applyMaskAttr(inp, 'auto-el');
-        matchCount += found.length;
+        totalDetected += found.length;
+        if (matchCount < maxMatches) {
+          inp.setAttribute('data-demoshield-cat', found[0].category);
+          applyMaskAttr(inp, 'auto-el');
+          matchCount += 1;
+        } else {
+          limitedByFree = true;
+        }
       }
     }
 
@@ -389,6 +399,12 @@
       const matches = Rules.detectMatches(text, enabled);
       if (matches.length === 0) continue;
 
+      totalDetected += matches.length;
+      if (matchCount >= maxMatches) {
+        limitedByFree = true;
+        continue;
+      }
+
       const trimmed = text.trim();
       if (
         isLeafSingleTextElement(parent) &&
@@ -404,6 +420,10 @@
       const frag = document.createDocumentFragment();
       let cursor = 0;
       for (const m of matches) {
+        if (matchCount >= maxMatches) {
+          limitedByFree = true;
+          break;
+        }
         if (m.start > cursor) {
           frag.appendChild(document.createTextNode(text.slice(cursor, m.start)));
         }
@@ -422,9 +442,11 @@
     }
 
     const elapsedMs = Math.max(0.1, Number((performance.now() - t0).toFixed(1)));
-    state.statusText = `Auto-masked ${matchCount} item${matchCount === 1 ? '' : 's'} in ${elapsedMs}ms`;
+    state.statusText = limitedByFree
+      ? `Free preview: ${matchCount}/${totalDetected} masked · Pro unlocks all`
+      : `Auto-masked ${matchCount} item${matchCount === 1 ? '' : 's'} in ${elapsedMs}ms`;
     updateHudUI();
-    return { matched: matchCount, elapsedMs };
+    return { matched: matchCount, totalDetected, limitedByFree, elapsedMs };
   }
 
   async function saveOriginProfile() {
@@ -442,6 +464,12 @@
 
     const stored = await storageGet(STORAGE_PROFILES_KEY);
     const profiles = (stored && stored[STORAGE_PROFILES_KEY]) || {};
+    const existingOrigins = Object.keys(profiles);
+    if (!state.proUnlocked && !profiles[origin] && existingOrigins.length >= FREE_ORIGIN_PROFILE_LIMIT) {
+      state.statusText = `Free tier allows ${FREE_ORIGIN_PROFILE_LIMIT} saved site · Pro unlocks unlimited`;
+      updateHudUI();
+      return { ok: false, origin, limitedByFree: true, error: state.statusText };
+    }
     profiles[origin] = {
       origin,
       selectors,
@@ -963,6 +991,7 @@
         }
 
         if (msg.type === 'DEMOSHIELD_UPDATE_SETTINGS') {
+          if (typeof msg.proUnlocked === 'boolean') state.proUnlocked = msg.proUnlocked;
           if (typeof msg.blurPx === 'number') state.blurPx = Math.max(4, Math.min(20, msg.blurPx));
           if (typeof msg.redactLabel === 'string' && msg.redactLabel.trim()) {
             state.redactLabel = msg.redactLabel.trim().slice(0, 24);
@@ -1038,7 +1067,8 @@
       refreshAllMaskedModes();
       updateHudUI();
     },
-    setSettings({ blurPx, redactLabel }) {
+    setSettings({ blurPx, redactLabel, proUnlocked }) {
+      if (typeof proUnlocked === 'boolean') state.proUnlocked = proUnlocked;
       if (typeof blurPx === 'number') state.blurPx = blurPx;
       if (typeof redactLabel === 'string') state.redactLabel = redactLabel;
       refreshAllMaskedModes();
