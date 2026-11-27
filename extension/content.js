@@ -506,7 +506,9 @@
     if (typeof savedSettings.redactLabel === 'string' && savedSettings.redactLabel) {
       state.redactLabel = savedSettings.redactLabel;
     }
-    state.proUnlocked = Boolean(savedSettings.proUnlocked);
+    if (typeof savedSettings.proUnlocked === 'boolean') {
+      state.proUnlocked = savedSettings.proUnlocked;
+    }
 
     const profiles = stored[STORAGE_PROFILES_KEY] || {};
     const profile = profiles[origin];
@@ -879,7 +881,8 @@
           ...prev,
           mode: state.mode,
           blurPx: state.blurPx,
-          redactLabel: state.redactLabel
+          redactLabel: state.redactLabel,
+          proUnlocked: state.proUnlocked
         }
       });
     });
