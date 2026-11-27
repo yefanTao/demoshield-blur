@@ -11,6 +11,10 @@ Mask **Stripe revenue, API keys (`sk_live_*`, `sk-proj-*`, `ghp_*`, `AKIA*`, `AI
 
 - **Homepage / Live Interactive Demo**: https://yefantao.github.io/demoshield-blur/
 - **Privacy Policy URL (for CWS Dashboard)**: https://yefantao.github.io/demoshield-blur/privacy-policy.html (also anchored at https://yefantao.github.io/demoshield-blur/#privacy)
+- **Instant Post-Payment Key Delivery**: https://yefantao.github.io/demoshield-blur/success.html
+- **Stripe Pro Checkout ($9 One-Time)**: https://buy.stripe.com/9B6fZjgJmaAh49AaAL1sQ02
+- **Stripe Team 5-Pack Checkout ($29 One-Time)**: https://buy.stripe.com/dRm6oJ78MdMt35wgZ91sQ03
+- **BlurWeb Alternatives SEO Page**: https://yefantao.github.io/demoshield-blur/alternatives.html
 - **Open-Source Repository**: https://github.com/yefanTao/demoshield-blur
 - **Ready-to-Upload Archive**: `dist/demoshield-blur-v1.0.0.zip` (HOLD until `CleanSave Image` passes initial CWS review)
 
