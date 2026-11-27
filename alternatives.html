@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DemoShield Blur vs BlurWeb ($67) — Zero-Host-Permission Alternative</title>
+  <meta name="description" content="Honest side-by-side comparison of DemoShield Blur ($0 Free / $9 Pro once, zero host permissions) vs BlurWeb ($67+ upfront) and generic <all_urls> blur extensions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .alt-table-wrap { overflow-x: auto; background: #FFFFFF; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 14px 32px rgba(15,23,42,0.06); margin: 28px 0; }
+    .alt-table { width: 100%; border-collapse: collapse; min-width: 680px; }
+    .alt-table th, .alt-table td { padding: 15px 18px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14.5px; }
+    .alt-table th { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; background: #F8FAFC; color: var(--muted); }
+    .alt-table th.col-ds, .alt-table td.col-ds { background: #EFF6FF; color: var(--text); font-weight: 700; }
+    .alt-table tr:last-child td { border-bottom: none; }
+    .yes { color: #059669; font-weight: 800; }
+    .no { color: #DC2626; font-weight: 700; }
+    .callout { background: #F5F8FC; border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin-top: 24px; }
+    .callout h3 { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+    .callout p { font-size: 14.5px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a href="./index.html" class="brand">
+        <svg class="brand-icon" viewBox="0 0 36 36" width="32" height="32" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="#1D4ED8" />
+          <path d="M18 6 L28 10 V19 C28 24.5 23.6 28.4 18 30.2 C12.4 28.4 8 24.5 8 19 V10 Z" fill="#FFFFFF" />
+          <rect x="12" y="13" width="12" height="2.8" rx="1.4" fill="#0F172A" />
+          <rect x="12" y="17.5" width="9.5" height="2.8" rx="1.4" fill="#2563EB" />
+          <rect x="13.5" y="22" width="8" height="2.4" rx="1.2" fill="#94A3B8" />
+        </svg>
+        <span class="brand-name">DemoShield Blur</span>
+      </a>
+      <div class="nav-links">
+        <a href="./index.html#demo">Live Demo</a>
+        <a href="./index.html#audit">Audit</a>
+        <a href="./index.html#pricing">Pricing</a>
+        <a href="./index.html#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://github.com/yefanTao/demoshield-blur" target="_blank" rel="noopener noreferrer" class="nav-signin">GitHub</a>
+        <a href="./index.html#install" class="btn btn-primary btn-sm">Install Free &rarr;</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container" style="max-width:960px;">
+        <div class="eyebrow">HONEST ALTERNATIVES COMPARISON</div>
+        <h1 class="hero-h1">DemoShield Blur vs BlurWeb &amp; free clones.</h1>
+        <p class="hero-sub">
+          No hype — concrete differences in permissions, pricing, and automated secret detection so you can pick the right screen-share privacy tool.
+        </p>
+
+        <div class="alt-table-wrap">
+          <table class="alt-table">
+            <thead>
+              <tr>
+                <th>Capability / Audit Check</th>
+                <th class="col-ds">DemoShield Blur</th>
+                <th>BlurWeb</th>
+                <th>Typical Free Blur Clones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Price</strong></td>
+                <td class="col-ds">$0 Free Forever · $9 Pro Once</td>
+                <td>$67+ upfront (no free tier)</td>
+                <td>$0 (often ad/data monetized)</td>
+              </tr>
+              <tr>
+                <td><strong>Host Permissions (<code>&lt;all_urls&gt;</code>)</strong></td>
+                <td class="col-ds"><span class="yes">✓ ZERO host_permissions</span></td>
+                <td>Requires broad site access</td>
+                <td><span class="no">✗ Requests &lt;all_urls&gt;</span></td>
+              </tr>
+              <tr>
+                <td><strong>Open-Source &amp; Auditable</strong></td>
+                <td class="col-ds"><span class="yes">✓ MIT on GitHub + CI test</span></td>
+                <td>Closed source</td>
+                <td>Closed / minified bundle</td>
+              </tr>
+              <tr>
+                <td><strong>1-Click Auto-Mask (API Keys / $ / Emails)</strong></td>
+                <td class="col-ds"><span class="yes">✓ Local regex + Luhn (&lt;2ms)</span></td>
+                <td>Manual click-to-blur</td>
+                <td>Manual only or cloud API</td>
+              </tr>
+              <tr>
+                <td><strong>Blur &amp; Clean Solid Redact Pills</strong></td>
+                <td class="col-ds"><span class="yes">✓ Both included</span></td>
+                <td>Blur + hide</td>
+                <td>Blur only</td>
+              </tr>
+              <tr>
+                <td><strong>Per-Origin Saved Rules</strong></td>
+                <td class="col-ds"><span class="yes">✓ Local replay in &lt;10ms</span></td>
+                <td><span class="yes">✓ Supported</span></td>
+                <td>Varies / unstable selectors</td>
+              </tr>
+              <tr>
+                <td><strong>Cloud AI / Outbound Telemetry</strong></td>
+                <td class="col-ds"><span class="yes">✓ 0 bytes uploaded</span></td>
+                <td>License check online</td>
+                <td>Often includes analytics</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <h3>When should you still consider BlurWeb?</h3>
+          <p>
+            If you specifically need Firefox/Safari support today or automatic blurring on page load <em>without</em> pressing a hotkey first (which technically requires granting broad <code>&lt;all_urls&gt;</code> host permissions to every tab), BlurWeb is an established paid option. If you use Chrome, refuse <code>&lt;all_urls&gt;</code> spying, want a free tier, and want 1-click local regex redaction for Stripe revenue and API keys at 7&times; lower cost, DemoShield Blur is built for you.
+          </p>
+        </div>
+
+        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="./index.html#demo" class="btn btn-primary">Try Interactive Hero Demo &rarr;</a>
+          <a href="./index.html#install" class="btn btn-outline">Install Free v1.0.0</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <span class="footer-brand">DemoShield Blur</span>
+        <span class="footer-sep">&middot;</span>
+        <span class="mono-meta">v1.0.0 &middot; MIT Open Source</span>
+      </div>
+      <div class="footer-links">
+        <a href="./index.html">Home</a>
+        <a href="https://github.com/yefanTao/demoshield-blur" target="_blank" rel="noopener noreferrer">Open-Source Repo</a>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+      </div>
+      <div class="footer-disclaimer">
+        Not affiliated with Stripe, BlurWeb, or Google Chrome.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
