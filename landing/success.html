@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your DemoShield Blur Pro License Key</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F5F8FC; --surface: #FFFFFF; --border: #E2E8F0;
+      --text: #0F172A; --muted: #475569; --cobalt: #2563EB;
+      --cobalt-dark: #1D4ED8; --emerald-soft: #ECFDF5; --emerald-text: #047857;
+      --font-display: 'Calistoga', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-sans); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 580px; width: 100%; padding: 34px 30px; box-shadow: 0 14px 36px rgba(15,23,42,0.08); text-align: center; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--emerald-soft); color: var(--emerald-text); border: 1px solid #A7F3D0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; margin-bottom: 14px; }
+    h1 { font-family: var(--font-display); font-weight: 400; margin: 0 0 8px; font-size: 30px; letter-spacing: -0.01em; }
+    p { margin: 0 0 20px; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .key-box { background: #0B1120; color: #34D399; font-family: var(--mono); font-size: 20px; font-weight: 700; letter-spacing: 0.06em; padding: 18px 20px; border-radius: 12px; margin-bottom: 14px; user-select: all; word-break: break-all; line-height: 1.75; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 9px; border: none; background: var(--cobalt-dark); color: #FFF; font-family: var(--font-sans); font-size: 14.5px; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .btn:hover { background: var(--cobalt); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .steps { text-align: left; background: #F8FAFC; border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-top: 22px; font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+    .steps strong { color: var(--text); }
+    code { font-family: var(--mono); font-size: 12px; background: #E2E8F0; color: var(--text); padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge" id="planBadge">✓ Payment Complete · Lifetime License</div>
+    <h1 id="heading">Welcome to DemoShield Blur Pro!</h1>
+    <p id="subtext">Issuing your offline-verifiable lifetime license key...</p>
+    <div id="keyBox" class="key-box">Generating...</div>
+    <button id="copyBtn" class="btn" type="button" disabled>Copy License Key</button>
+    <div id="status" style="margin-top:10px;font-family:var(--mono);font-size:12px;min-height:18px;"></div>
+
+    <div class="steps">
+      <strong>How to activate in 10 seconds:</strong>
+      <ol style="margin:8px 0 0;padding-left:20px;">
+        <li>Click the <strong>DemoShield Blur</strong> icon in your Chrome toolbar.</li>
+        <li>Open <strong>Intensity, Label &amp; Pro Key</strong> at the bottom of the popup.</li>
+        <li>Paste your <code>DSPRO-XXXX-XXXX-XXXX</code> key and click <strong>Unlock</strong>.</li>
+        <li>Save a copy of this key — verification is <strong>100% offline</strong> with zero login or server required!</li>
+      </ol>
+    </div>
+
+    <div style="margin-top:20px;font-size:13.5px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;">
+      <a href="./" style="color:var(--cobalt-dark);font-weight:700;text-decoration:none;">&larr; Back to DemoShield Blur</a>
+      <a href="https://github.com/yefanTao/demoshield-blur/raw/main/dist/demoshield-blur-v1.0.0.zip" style="color:var(--muted);font-weight:600;text-decoration:none;">Download v1.0.0 ZIP &darr;</a>
+    </div>
+  </main>
+
+  <script>
+    // Matches extension/rules.js offline checksum algorithm exactly (zero server calls)
+    const KEY_ALPHABET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    const KEY_SALT = 'DEMOSHIELD_BLUR_V1_OFFLINE_2026';
+
+    function computeChecksum4(payload8) {
+      let h = 2166136261 >>> 0; // FNV-1a 32-bit
+      const input = KEY_SALT + ':' + payload8.toUpperCase();
+      for (let i = 0; i < input.length; i++) {
+        h ^= input.charCodeAt(i);
+        h = Math.imul(h, 16777619) >>> 0;
+      }
+      let out = '';
+      for (let i = 0; i < 4; i++) {
+        out += KEY_ALPHABET[(h >>> (i * 5)) & 31];
+      }
+      return out;
+    }
+
+    async function deriveKey(sessionId, seatIndex) {
+      const data = new TextEncoder().encode(`DEMOSHIELD-STRIPE-ORDER-V1::${sessionId}::SEAT-${seatIndex}`);
+      const buf = await crypto.subtle.digest('SHA-256', data);
+      const bytes = new Uint8Array(buf);
+      let payload8 = '';
+      for (let i = 0; i < 8; i++) payload8 += KEY_ALPHABET[bytes[i] & 31];
+      return `DSPRO-${payload8.slice(0, 4)}-${payload8.slice(4, 8)}-${computeChecksum4(payload8)}`;
+    }
+
+    (async () => {
+      const params = new URLSearchParams(location.search);
+      const sessionId = (params.get('session_id') || '').trim();
+      const isTeam = params.get('plan') === 'team';
+      const seatCount = isTeam ? 5 : 1;
+
+      const keyBox = document.getElementById('keyBox');
+      const copyBtn = document.getElementById('copyBtn');
+      const subtext = document.getElementById('subtext');
+      const status = document.getElementById('status');
+      const heading = document.getElementById('heading');
+      const planBadge = document.getElementById('planBadge');
+
+      if (!/^cs_(live|test)_[A-Za-z0-9]{20,}$/.test(sessionId)) {
+        keyBox.textContent = 'Checkout Session Required';
+        keyBox.style.color = '#FCA5A5';
+        subtext.textContent = 'Complete checkout from the DemoShield Blur pricing page to receive your instant lifetime license key.';
+        return;
+      }
+
+      if (isTeam) {
+        planBadge.textContent = '✓ Payment Complete · Team 5-Pack';
+        heading.textContent = 'Your 5 DemoShield Pro Keys!';
+        copyBtn.textContent = 'Copy All 5 Keys';
+      }
+
+      const keys = [];
+      for (let i = 1; i <= seatCount; i++) {
+        keys.push(await deriveKey(sessionId, i));
+      }
+
+      const outputText = keys.join('\n');
+      keyBox.textContent = outputText;
+      keyBox.style.whiteSpace = 'pre-line';
+      subtext.textContent = isTeam
+        ? 'Your 5 unique DemoShield Blur Pro lifetime keys are ready below. Bookmark or save a copy for your team!'
+        : 'Your unique DemoShield Blur Pro lifetime key is ready below. Bookmark or save a copy for your records!';
+
+      copyBtn.disabled = false;
+      copyBtn.onclick = async () => {
+        await navigator.clipboard.writeText(outputText);
+        copyBtn.textContent = isTeam ? '✓ Copied All 5 Keys!' : '✓ Copied to Clipboard!';
+        status.textContent = 'Now click the DemoShield Blur icon in Chrome and paste your key to unlock Pro.';
+        status.style.color = '#047857';
+      };
+    })();
+  </script>
+</body>
+</html>
